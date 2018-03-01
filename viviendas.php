@@ -66,28 +66,28 @@
 
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-    	<!-- Brand and toggle get grouped for better mobile display -->
-    	<div class="navbar-header">
-    		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-    		<span class="sr-only">Toggle navigation</span>
-    		<span class="icon-bar"></span>
-    		<span class="icon-bar"></span>
-    		<span class="icon-bar"></span>
-    		</button>
-    		<a class="navbar-brand page-scroll" href="index.html"><img src="img/logo.jp" alt="viviendas.com" style="color:black"></a>
-    	</div>
-    	<!-- Collect the nav links, forms, and other content for toggling -->
-    	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    		<ul class="nav navbar-nav navbar-right">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand page-scroll" href="index.html"><img src="img/logo.jp" alt="viviendas.com" style="color:black"></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
           <!--- Menu -->
               <li><a href="index.html" class="page-scroll">Home</a></li>
-              <li><a href="daw.html" class="page-scroll">DAW</a></li>
+
               <li><a href="viviendas.php" class="page-scroll">Viviendas</a></li>
               <li><a href="registro.html" class="page-scroll">Registro</a></li>
               <li><a href="contacto.html" class="page-scroll">Contacto</a></li>
           </ul><!--- End Menu -->
-    	</div>
-    	<!-- /.navbar-collapse -->
+      </div>
+      <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
     </nav>
@@ -103,7 +103,7 @@
       mysqli_set_charset($conexion,"utf8");
 
 
-      $registros=mysqli_query($conexion,"select direccion,superficie,construccion,fotografia from viviendas") or
+      $registros=mysqli_query($conexion,"select id,direccion,superficie,construccion,foto from viviendas") or
         die("Problemas en el select:".mysqli_error($conexion));
     ?>
 
@@ -122,127 +122,51 @@
               <p style="color:white;">Estas son algunas de nuestras viviendas registradas, pincha en ellas para ver mas informacion de las mismas. Y si  quieres registrar la tuya <a href="registro.html" style="color:rgb(187, 32, 32);">registrala</a> y podras verla en nuestro registro de viviendas.</p>
 
 
+
+
+
+
           </div>
+
       </div>
-    </div>
-    </div>
+      <?php
+          while ($reg = mysqli_fetch_array($registros)){
+      ?>
+            <div class="col-md-3 bg-primary no-padding teambox"style="background-color:rgb(187, 32, 32);padding:0;">
+            <div class="team-thumb overlay-image view-overlay" >
+              <?php echo "<img src='".$reg['foto']."'style='width:100%;class='img-responsive'>";?>
 
-
-
-
-                <!--
-                <div class="col-md-2 col-sm-2">
-                    <div class="team hire">
-                        <h4>We Are Hiring!</h4>
-                        <hr>
-                        <div class="space"></div>
-                        <a href="#">
-                            <span class="fa fa-paper-plane-o fa-2x"></span>
-                        </a>
-                    </div>
-                </div>
-              -->
-
-              <div class="col-md-3 bg-primary no-padding teambox"style="background-color:rgb(187, 32, 32);padding:0;">
-              <div class="team-thumb overlay-image view-overlay" >
-              	<img src="img/team/01.jpg" alt="" class="img-responsive" style="width:100%;">
-              	<div class="mask team_quote">
-              		<div class="port-zoom-link">
-              			<p>
-              				 Programacion.
-              			</p>
-              		</div>
-              	</div>
-              </div>
-              <h2>Jesus Alcocer</h2>
-              <p>
-              	 PROFESOR
-              </p>
-
-              <div class="team-social">
-              	<a href="#"><i class="fa fa-twitter"></i></a>
-              	<a href="#"><i class="fa fa-linkedin"></i></a>
-              	<a href="#"><i class="fa fa-facebook"></i></a>
-              	<a href="#"><i class="fa fa-google-plus"></i></a>
-
-              </div>
-              </div>
-
-              <div class="col-md-3 bg-primary no-padding teambox" style="background-color:rgb(187, 32, 32);padding:0;">
-              <div class="team-thumb overlay-image view-overlay">
-                <img src="img/team/03.jpg" alt="" class="img-responsive" style="width:100%;">
-                <div class="mask team_quote">
-                  <div class="port-zoom-link">
-                    <p>
-                       Lenguaje de marcas, Bases de datos, Diseño de interfaces web, Despliegue de aplicaciones web
-                    </p>
-                  </div>
+              <div class="mask team_quote">
+                <div class="port-zoom-link">
+                  <p>
+                    <?php  echo $reg['direccion']; ?>
+                    <?php  echo "<br><br>Superficie ".$reg['superficie']; ?>
+                  </p>
                 </div>
               </div>
-              <h2>Jose Maria</h2>
-              <p>
-                 PROFESOR
-              </p>
-              <div class="team-social">
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-google-plus"></i></a>
+            </div>
+            <h2><?php  echo "Vivienda ".$reg['id']; ?></h2>
+            <p>
+               <?php  echo "Año construccion ".$reg['construccion']; ?>
+            </p>
 
-              </div>
-              </div>
-
-              <div class="col-md-3 bg-primary no-padding teambox" style="background-color:rgb(187, 32, 32);padding:0;">
-              <div class="team-thumb overlay-image view-overlay">
-                <img src="img/team/04.jpg" alt="" class="img-responsive"style="width:100%;">
-                <div class="mask team_quote">
-                  <div class="port-zoom-link">
-                    <p>
-                       Sistemas informaticos, Desarrollo de aplicaciones web en entorno cliente, Desarrollo deaplicaciones web en entorno servidor
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <h2>Pepa</h2>
-              <p>
-                 PROFESORA
-              </p>
-              <div class="team-social">
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-google-plus"></i></a>
-
-              </div>
-              </div>
-
-
-              <div class="col-md-3 bg-primary no-padding teambox" style="background-color:rgb(187, 32, 32);padding:0;">
-              <div class="team-thumb overlay-image view-overlay">
-                <img src="img/team/02.jpg" alt="" class="img-responsive"style="width:100%;">
-                <div class="mask team_quote">
-                  <div class="port-zoom-link">
-                    <p>
-                       Formacion y orientacion laboral, Empresa e iniciativa emprendedora
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <h2>Critobalina</h2>
-              <p>
-                 PROFESORA
-              </p>
-              <div class="team-social">
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-google-plus"></i></a>
-
-              </div>
-              </div>
-
+            <div class="team-social">
+              <a href="#"><i class="fa fa-twitter"></i></a>
+              <a href="#"><i class="fa fa-linkedin"></i></a>
+              <a href="#"><i class="fa fa-facebook"></i></a>
+              <a href="#"><i class="fa fa-google-plus"></i></a>
 
             </div>
+            </div>
+      <?php
+          }
+      ?>
+    </div>
+    </div>
+
+
+
+
 
             <div class="text-center">
                 <a href="#home" class="page-scroll down-btn">
@@ -256,18 +180,18 @@
         <!-- Testimonial Section -->
 
     <!-- Contact Section -->
-    <nav id="footer">
+    <nav id="footer" >
         <div class="container">
           <hr>
 
 
-          <ul class="social" style="float:left">
+          <ul class="social">
               <li><a href="#"><span class="fa fa-facebook"></span></a></li>
               <li><a href="#"><span class="fa fa-google-plus"></span></a></li>
               <li><a href="#"><span class="fa fa-twitter"></span></a></li>
               <li><a href="#"><span class="fa fa-dribbble"></span></a></li>
             </ul>
-<br><br><br><br><br><br><br>
+<br><br>
              <div class="pull-left">
                 <p>2018 © Angel Varela Pruaño. All Rights Reserved. Coded & Designed by <a href="http://www.agvarelapru.esy.es">Angel Varela</a></p>
             </div>
