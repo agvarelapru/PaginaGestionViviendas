@@ -1,0 +1,10 @@
+User-agent: Googlebot
+
+Disallow: registro.php
+Disallow: viviendaRegistrada.php
+Disallow: biblioteca/conexion.php
+
+User-agent: *
+Allow: /
+
+Sitemap: http://www.agvarelapru.esy.es/PaginaGestionViviendas/sitemap.xml
