@@ -76,19 +76,19 @@
 
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-    	<!-- Brand and toggle get grouped for better mobile display -->
-    	<div class="navbar-header">
-    		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-    		<span class="sr-only">Toggle navigation</span>
-    		<span class="icon-bar"></span>
-    		<span class="icon-bar"></span>
-    		<span class="icon-bar"></span>
-    		</button>
-    		<a class="navbar-brand page-scroll" href="index.html"><img src="img/logo.jp" alt="viviendas.com" style="color:black"></a>
-    	</div>
-    	<!-- Collect the nav links, forms, and other content for toggling -->
-    	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    		<ul class="nav navbar-nav navbar-right">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand page-scroll" href="index.html"><img src="img/logo.jp" alt="viviendas.com" style="color:black"></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
           <!--- Menu -->
               <li><a href="index.html" class="page-scroll">Home</a></li>
 
@@ -96,8 +96,8 @@
               <li><a href="registro.html" class="page-scroll">Registro</a></li>
               <li><a href="#contacto.html" class="page-scroll">Contacto</a></li>
           </ul><!--- End Menu -->
-    	</div>
-    	<!-- /.navbar-collapse -->
+      </div>
+      <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
     </nav>
@@ -108,7 +108,8 @@
     <!-- Contact Section -->
 <?php
 
-
+if(isset($_FILES["fotografia"])){
+$aleatorio=0;
 
       $target_dir = "imagenes/";
       $target_file = $target_dir .rand().basename($_FILES["fotografia"]["name"]);
@@ -126,12 +127,18 @@
           }
       }
       // Check if file already exists
+
       if (file_exists($target_file)) {
+
+
+
         $fotografiaErr="El archivo ya existe.";
           echo "Lo siento, el archivo ya existe.";
           $uploadOk = 0;
+
       }
       // Check file size
+
       if ($_FILES["fotografia"]["size"] > 5000000) {
         $fotografiaErr.="<br> El archivo es demasiado grande.";
           echo "Lo siento, el archivo es demasiado grande.";
@@ -162,15 +169,20 @@ $fotografiaErr.="<br> A ocurrido un error en la carga del archivo.";
 
           }
       }
+    }
 if($direccionErr=="" & $construccionErr=="" & $fechaErr=="" & $fotografiaErr==""){
 require_once('biblioteca/conexion.php');
 $conexion=mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME) or die("Problemas con la conexión");
 
-mysqli_query($conexion,"insert into viviendas(direccion,superficie,construccion,Foto) values
-                     ('$_REQUEST[direccion]','$_REQUEST[superficie]','$_REQUEST[construccion]', '$target_file')")
+if(isset($_FILES["fotografia"])){
+
+mysqli_query($conexion,"update viviendas set direccion='$_REQUEST[direccion]', superficie='$_REQUEST[superficie]',construccion='$_REQUEST[construccion]', foto='$target_file' where id='$_REQUEST[id]'")
 or die("Problemas en el select".mysqli_error($conexion));
 
-
+}else{
+  mysqli_query($conexion,"update viviendas set direccion='$_REQUEST[direccion]', superficie='$_REQUEST[superficie]',construccion='$_REQUEST[construccion]' where id='$_REQUEST[id]'")
+  or die("Problemas en el select".mysqli_error($conexion));
+}
 mysqli_close($conexion);
 ?>
 
@@ -178,7 +190,7 @@ mysqli_close($conexion);
         <div class="container">
             <div class="section-title text-center">
 
-                <h2>Registro vivienda</h2>
+                <h2>Edicion de vivienda</h2>
                 <hr>
             </div>
             <div class="space"></div>
@@ -201,7 +213,13 @@ mysqli_close($conexion);
 
 
 <input type="date" class="form-control" placeholder="Construccion" disabled  value="<?php  echo $_REQUEST['construccion'];  ?>">
+<?php
+if(isset($_FILES["fotografia"])){
+  ?>
                                   <input type="text" class="form-control" name="fotografia" id="fotografia" placeholder="fotografia" title="Introduzca fotografia" disabled value="<?php echo $target_file ?>"/>
+<?php
+}
+?>
 <br>
                             </div>
                         </div>
@@ -217,12 +235,12 @@ mysqli_close($conexion);
                   echo      "<div class='overlay'style='height:650px'>";
                     echo       "<div class='container' style='margin-top:150px'>";
                   echo "<div class='section-title'>";
-                      echo "<h3 style=color:red> La vivienda NO se agrego. </h3>";
+                      echo "<h3 style=color:red> La vivienda NO se edito. </h3>";
                       echo $fotografiaErr;
                       echo "<hr>";
                   echo  "</div>";
                   echo  "<div class='text-right'>";
-                    echo  "<a  name='volver' href='registro.html' class='btn send-btn'>Volver</a><br>";
+                    echo  "<a  name='volver' href='viviendas.php' class='btn send-btn'>Volver</a><br>";
                       echo  "</div>";
   echo  "</div>";
     echo  "</div>";

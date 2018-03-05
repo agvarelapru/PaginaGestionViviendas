@@ -92,19 +92,33 @@
     <!-- /.container -->
     </nav>
 
+
+
+
+
+
+
+
     <?php
-    $direccion=$construccion=$fecha=$fotografia="";
-    $direccionErr=$construccionErr=$fechaErr=$fotografiaErr="";
+    $direccion=$construccion=$fecha=$fotografia=$buscar="";
+    $direccionErr=$construccionErr=$fechaErr=$fotografiaErr=$buscarErr="";
 
     require_once('biblioteca/conexion.php');
     $conexion=mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME) or die("Problemas con la conexión");
 
 
       mysqli_set_charset($conexion,"utf8");
+if(!isset($_REQUEST['busqueda'])){
+
+  $registros=mysqli_query($conexion,"select id,direccion,superficie,construccion,foto from viviendas") or
+    die("Problemas en el select:".mysqli_error($conexion));
+
+}else{
+  $registros=mysqli_query($conexion,"select id,direccion,superficie,construccion,foto from viviendas where direccion like '%".$_REQUEST['busqueda']."%'") or
+    die("Problemas en el select:".mysqli_error($conexion));
+}
 
 
-      $registros=mysqli_query($conexion,"select id,direccion,superficie,construccion,foto from viviendas") or
-        die("Problemas en el select:".mysqli_error($conexion));
     ?>
 
 
@@ -127,6 +141,25 @@
 
 
           </div>
+<div id="contact">
+<div class="container">
+
+          <form class="form-horizontal"   action="viviendas.php" method="post" style="width:100%">
+<br>
+            <div class="form-group">
+
+
+          <input  class="form-control" type="text" name="busqueda"  placeholder="Filtrar por situacion" style="display:inline;width:75%;margin-left:7.5%"  title="Indique el contenido a buscar"/>
+
+          <button class='btn send-btn' type="submit" name="buscar" style=" float:right; width:10%;margin-top:0%; background-color:#C59A6D;margin-right:7.5%"  id="buscar"><span class="glyphicon glyphicon-search" ></span></button>
+
+
+</div>
+          </form>
+
+</div>
+</div>
+
 
       </div>
       <?php
@@ -151,10 +184,11 @@
             </p>
 
             <div class="team-social">
-              <a href="#"><i class="fa fa-twitter"></i></a>
-              <a href="#"><i class="fa fa-linkedin"></i></a>
-              <a href="#"><i class="fa fa-facebook"></i></a>
-              <a href="#"><i class="fa fa-google-plus"></i></a>
+
+        <?php  echo "<a href='editar.php?id=".$reg['id']."'><i class='fa fa-pencil' title='Editar'></i></a>" ?>
+        <?php  echo "<a href='borrar.php?id=".$reg['id']."'><i class='fa fa-remove' title='Borrar'></i></a>" ?>
+            
+
 
             </div>
             </div>
